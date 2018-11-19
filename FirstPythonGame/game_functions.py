@@ -19,10 +19,9 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
 
     elif event.key == pygame.K_SPACE:
         # 按下空格键--创建了一颗子弹--加入编组bullets进行管理
-
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
-        print('1')
+
 
 def check_keydup_events(event, ship):
     """ 响应松开按键事件 """
@@ -56,7 +55,7 @@ def update_screen(ai_settings, screen, ship, bullets):
     # 在屏幕上更新子弹位置
     for bullet in bullets.sprites():
         bullet.draw_bullet()
-        print("4")
+        
     # 更新飞船位置
     ship.blitme()
 

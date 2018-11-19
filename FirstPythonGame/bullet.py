@@ -26,7 +26,7 @@ class Bullet(Sprite):
 
     def update(self):
         #""" 子弹的移动 是 固定 向上运动的 """
-        print('2')
+        
         self.y -= self.speed_factor
         self.rect.y = self.y
 
@@ -34,4 +34,3 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """ 在屏幕上绘制子弹 """
         pygame.draw.rect(self.screen, self.color, self.rect)
-        print('3')
