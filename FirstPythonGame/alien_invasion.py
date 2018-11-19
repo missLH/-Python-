@@ -13,12 +13,14 @@ def run_game():
     pygame.display.set_caption('Alien Invasion')
 
     #创建一艘飞船
-    ship = Ship(screen)
+    ship = Ship(ai_settings, screen)
 
     # 开始游戏的主循环
     while True:
         # 访问pygame检测到得事件,讲代码块封装到gf模块中，分离逻辑，使得主逻辑更清晰明了
-        gf.check_event()
+        gf.check_event(ship)
+        # 更新飞船位置
+        ship.update()
         #更新屏幕
         gf.update_screen(ai_settings, screen, ship)
 
