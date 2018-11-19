@@ -35,7 +35,7 @@ class Ship():
             self.center_x -= self.ai_settings.ship_speed_factor
         if self.moving_up and self.rect.top > self.screen_rect.top:
             self.center_y -=  self.ai_settings.ship_speed_factor
-        if self.moving_down and self.rect.bottom <= 0:
+        if self.moving_down and self.rect.bottom >= 0:
             self.center_y += self.ai_settings.ship_speed_factor
 
         # 根据self.center更新self.rect对象
