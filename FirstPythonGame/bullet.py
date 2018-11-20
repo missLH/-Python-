@@ -26,7 +26,7 @@ class Bullet(Sprite):
 
     def update(self):
         #""" 子弹的移动 是 固定 向上运动的 """
-        
+
         self.y -= self.speed_factor
         self.rect.y = self.y
 
