@@ -27,7 +27,7 @@ class Alien(Sprite):
     def check_edges(self):
         """ 如果运动到了边缘就返回true """
         screen_rect = self.screen.get_rect()
-        
+
         if self.rect.right >= screen_rect.right:
             return True
         elif self.rect.left <= 0:

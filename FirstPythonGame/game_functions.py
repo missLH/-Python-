@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+from time import sleep
 from bullet import Bullet
 from alien import Alien
 
@@ -111,14 +112,45 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
 
+def ship_hit(ai_settings, stats, screen, ship, bullets, aliens):
+    """  响应被外星人撞到的飞船 """
+    if stats.ships_left > 0:
+        stats.ships_left -= 1
 
-def update_aliens(ai_settings, ship, aliens):
+        aliens.empty()
+        bullets.empty()
+
+        # 创建一群新的外星人
+        create_fleet(ai_settings, screen, ship, aliens)
+        # 将飞船放到屏幕底端中央
+        ship.center_ship()
+
+        #暂停
+        sleep(0.5)
+    else:
+        stats.game_active = False
+
+
+def check_aliens_bottom(ai_settings, stats, screen, ship, bullets, aliens):
+    """ 检查是否有外星人到达屏幕底端 """
+    screen_rect = screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            # 游戏重新开始
+            ship_hit(ai_settings, stats, screen, ship, bullets, aliens)
+            break
+
+def update_aliens(ai_settings, stats, screen, ship, bullets, aliens):
     """ 更新外星人群的位置 """
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
+    check_aliens_bottom(ai_settings, stats, screen, ship, bullets, aliens)
+
     if pygame.sprite.spritecollideany(ship, aliens):
-        print('You lost one chance.')
+        ship_hit(ai_settings, stats, screen, ship, bullets, aliens)
+
+
 
 def update_screen(ai_settings, screen, ship, bullets, aliens):
     """ 更新屏幕图像，并切换到新屏幕 这里需要传入参数，不然代码块中得新变量会显示未定义 """
