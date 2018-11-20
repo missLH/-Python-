@@ -57,7 +57,7 @@ def check_events(ai_settings, screen, ship, bullets):
         elif event.type == pygame.KEYUP:
             check_keydup_events(event, ship)
 
-def update_bullets(bullets):
+def update_bullets(ai_settings, screen, ship, bullets, aliens):
     """ 重构函数，讲主程序子弹的管理代码封装到模块部分， 使得主程序简明 """
     bullets.update()
 
@@ -66,6 +66,16 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
         #print(len(bullets))
+    check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens)
+
+def check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens):
+    # 检查是否有子弹击中了外星人
+    # 如果是这样，就删除相应的子弹和外星人
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if len(aliens) == 0:
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
 
 def create_fleet_x(ai_settings, screen, aliens, row_number):
     """ 这里不打算重构，会变得更复杂 """
@@ -102,10 +112,13 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= -1
 
 
-def update_aliens(ai_settings, aliens):
+def update_aliens(ai_settings, ship, aliens):
     """ 更新外星人群的位置 """
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
+
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print('You lost one chance.')
 
 def update_screen(ai_settings, screen, ship, bullets, aliens):
     """ 更新屏幕图像，并切换到新屏幕 这里需要传入参数，不然代码块中得新变量会显示未定义 """
