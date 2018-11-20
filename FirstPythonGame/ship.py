@@ -12,6 +12,7 @@ class Ship():
         self.image = pygame.image.load('images/ship.bmp')
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
+        self.ship_height = self.rect.height
 
         # 给飞船在屏幕定位，放在中央
         self.rect.centerx = self.screen_rect.centerx

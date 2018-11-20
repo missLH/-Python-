@@ -2,6 +2,7 @@ import sys
 
 import pygame
 from bullet import Bullet
+from alien import Alien
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     """ 响应按键事件 """
@@ -19,6 +20,9 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
 
     elif event.key == pygame.K_SPACE or event.key == pygame.K_j:
         fire_bullet(ai_settings, screen, ship, bullets)
+    # 方便退出游戏-快捷键
+    elif event.key == pygame.K_q:
+        sys.exit()
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     # 按下空格键--创建了一颗子弹--加入编组bullets进行管理
@@ -63,8 +67,47 @@ def update_bullets(bullets):
             bullets.remove(bullet)
         #print(len(bullets))
 
+def create_fleet_x(ai_settings, screen, aliens, row_number):
+    """ 这里不打算重构，会变得更复杂 """
+    alien = Alien(ai_settings, screen)
+    number_alien_x =int((ai_settings.screen_width - (2 * alien.alien_width)) / (2 * alien.alien_width))
 
-def update_screen(ai_settings, screen, ship, bullets):
+    for alien_number in range(number_alien_x):
+        alien = Alien(ai_settings, screen)
+        alien.x = alien.alien_width + 2 * alien.alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.alien_height + 2 * alien.alien_height * row_number
+        aliens.add(alien)
+
+def create_fleet(ai_settings, screen, ship, aliens):
+    """ """
+    alien = Alien(ai_settings, screen)
+    number_rows = int((ai_settings.screen_height - (3 * alien.alien_height) - ship.ship_height) / (2 * alien.alien_height))
+
+    for row_number in range(number_rows):
+        create_fleet_x(ai_settings, screen, aliens, row_number)
+
+def check_fleet_edges(ai_settings, aliens):
+    """ 在外星人到达边缘时发生的行为 """
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            # 这个break非常重要不能遗漏， 表示只有在下一次的碰壁时才会触发，不然在for循环中，change_fleet_direction会一直执行。fleet_direction会一直改变
+            break
+
+def change_fleet_direction(ai_settings, aliens):
+    """ 讲外星人群整体向下拉，然后改变方向 """
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= -1
+
+
+def update_aliens(ai_settings, aliens):
+    """ 更新外星人群的位置 """
+    check_fleet_edges(ai_settings, aliens)
+    aliens.update()
+
+def update_screen(ai_settings, screen, ship, bullets, aliens):
     """ 更新屏幕图像，并切换到新屏幕 这里需要传入参数，不然代码块中得新变量会显示未定义 """
     # 每次循环都重新绘制屏幕
     screen.fill(ai_settings.bg_color)
@@ -74,6 +117,8 @@ def update_screen(ai_settings, screen, ship, bullets):
 
     # 更新飞船位置
     ship.blitme()
+    #
+    aliens.draw(screen)
 
     # 让最近绘制的屏幕可见，每次执行while循环时都绘制一个空屏幕并擦去旧的，起到不断更新屏幕的作用
     pygame.display.flip()
