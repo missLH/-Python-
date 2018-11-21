@@ -181,7 +181,7 @@ def update_aliens(ai_settings, stats, screen, ship, bullets, aliens):
 
 
 
-def update_screen(ai_settings, screen, stats, ship, bullets, aliens, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button):
     """ 更新屏幕图像，并切换到新屏幕 这里需要传入参数，不然代码块中得新变量会显示未定义 """
     # 每次循环都重新绘制屏幕
     screen.fill(ai_settings.bg_color)
@@ -193,6 +193,8 @@ def update_screen(ai_settings, screen, stats, ship, bullets, aliens, play_button
     ship.blitme()
     # 更新外星人位置
     aliens.draw(screen)
+    # show the score
+    sb.show_score()
     # 如果游戏处于非活动状态，就绘制play按钮
     if not stats.game_active:
         play_button.draw_button()

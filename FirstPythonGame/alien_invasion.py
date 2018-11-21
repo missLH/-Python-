@@ -7,6 +7,7 @@ from alien import Alien
 import game_functions as gf
 from pygame.sprite import Group
 from button import Button
+from scoreborard import Scoreboard
 
 def run_game():
     #初始化游戏并创建一个屏幕对象
@@ -20,6 +21,8 @@ def run_game():
     play_button = Button(ai_settings, screen, "Play")
     # 创建一个用于存储游戏统计信息的实例
     stats = GameStats(ai_settings)
+    # create a instance of Scoreborard
+    sb = Scoreboard( ai_settings, screen, stats)
     # 创建一艘飞船
     ship = Ship(ai_settings, screen)
     # 创建一个用于管理子弹的编组
@@ -42,7 +45,7 @@ def run_game():
             gf.update_aliens(ai_settings, stats, screen, ship, bullets, aliens)
 
         #更新屏幕
-        gf.update_screen(ai_settings, screen, stats, ship, bullets, aliens, play_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button)
 
 
 run_game()
