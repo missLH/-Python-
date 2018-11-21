@@ -64,7 +64,9 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 
 def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     """ when the player click the button, start the game """
-    if play_button.rect.collidepoint(mouse_x, mouse_y):
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    # solve the bug that when you alick the button area the game reset again
+    if button_clicked and not stats.game_active:
         # rest the game stats
         stats.reset_stats()
         stats.game_active = True
