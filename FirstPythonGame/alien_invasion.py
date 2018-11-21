@@ -42,7 +42,7 @@ def run_game():
             # 更新子弹位置 删除消失在屏幕外的子弹
             gf.update_bullets(ai_settings, screen, stats, sb, ship, bullets, aliens)
             # 更新外星人群的位置
-            gf.update_aliens(ai_settings, stats, screen, ship, bullets, aliens)
+            gf.update_aliens(ai_settings, stats, sb, screen, ship, bullets, aliens)
 
         #更新屏幕
         gf.update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button)

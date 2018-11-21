@@ -79,6 +79,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         sb.prep_score()
         sb.prep_high_score()
         sb.prep_level()
+        sb.prep_ships()
 
         #
         aliens.empty()
@@ -155,10 +156,13 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
 
-def ship_hit(ai_settings, stats, screen, ship, bullets, aliens):
+def ship_hit(ai_settings, stats, sb, screen, ship, bullets, aliens):
     """  响应被外星人撞到的飞船 """
     if stats.ships_left > 0:
         stats.ships_left -= 1
+
+        # update the prep_ships
+        sb.prep_ships()
 
         aliens.empty()
         bullets.empty()
@@ -175,25 +179,25 @@ def ship_hit(ai_settings, stats, screen, ship, bullets, aliens):
         pygame.mouse.set_visible(True)
 
 
-def check_aliens_bottom(ai_settings, stats, screen, ship, bullets, aliens):
+def check_aliens_bottom(ai_settings, stats, sb, screen, ship, bullets, aliens):
     """ 检查是否有外星人到达屏幕底端 """
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
             # 游戏重新开始
-            ship_hit(ai_settings, stats, screen, ship, bullets, aliens)
+            ship_hit(ai_settings, stats, sb, screen, ship, bullets, aliens)
             break
 
-def update_aliens(ai_settings, stats, screen, ship, bullets, aliens):
+def update_aliens(ai_settings, stats, sb, screen, ship, bullets, aliens):
     """ 更新外星人群的位置 """
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
-    check_aliens_bottom(ai_settings, stats, screen, ship, bullets, aliens)
+    check_aliens_bottom(ai_settings, stats, sb, screen, ship, bullets, aliens)
 
     # things when aliens hit the ship
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, stats, screen, ship, bullets, aliens)
+        ship_hit(ai_settings, stats, sb, screen, ship, bullets, aliens)
 
 def check_high_score(stats, sb):
     if stats.score > stats.high_score:
