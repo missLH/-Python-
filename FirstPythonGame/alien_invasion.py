@@ -7,7 +7,7 @@ from alien import Alien
 import game_functions as gf
 from pygame.sprite import Group
 from button import Button
-from scoreborard import Scoreboard
+from scoreboard import Scoreboard
 
 def run_game():
     #初始化游戏并创建一个屏幕对象

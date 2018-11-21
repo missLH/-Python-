@@ -9,7 +9,7 @@ class Scoreboard():
         self.stats = stats
 
         # display the score font
-        self.test_color = (30, 30, 30)
+        self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
 
         # prep the scoreimg
@@ -18,7 +18,7 @@ class Scoreboard():
     def prep_score(self):
         """ turn the score into a img """
         score_str = str(self.stats.score)
-        self.score_image = self.font.render(score_str, True, slef.text_color, slef.ai_settings.bg_color)
+        self.score_image = self.font.render(score_str, True, self.text_color, self.ai_settings.bg_color)
 
         # put the score on the right-top conner
         self.score_rect = self.score_image.get_rect()
