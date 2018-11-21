@@ -34,13 +34,13 @@ def run_game():
     # 开始游戏的主循环
     while True:
         # 访问pygame检测到得事件,讲代码块封装到gf模块中，分离逻辑，使得主逻辑更清晰明了
-        gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
 
         if stats.game_active:
             # 更新飞船位置
             ship.update()
             # 更新子弹位置 删除消失在屏幕外的子弹
-            gf.update_bullets(ai_settings, screen, ship, bullets, aliens)
+            gf.update_bullets(ai_settings, screen, stats, sb, ship, bullets, aliens)
             # 更新外星人群的位置
             gf.update_aliens(ai_settings, stats, screen, ship, bullets, aliens)
 
