@@ -11,10 +11,10 @@ class Settings():
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
         # 飞船运动速度
-        self.ship_speed_factor = 9
+        self.ship_speed_factor = 5
 
         # 子弹设置
-        self.bullet_speed_factor = 29
+        self.bullet_speed_factor = 10
         self.ship_limit = 3
         self.bullet_width = 30
         self.bullet_height = 15
@@ -27,4 +27,21 @@ class Settings():
         # fleet_direction = 1 mean to right, -1 to left
         self.fleet_direction = 1
 
+        # the speed rhythm
+        self.speedup_scale = 2
+        self.initialize_dynamic_settings()
+
+    def initialize_dynamic_settings(self):
+        """ initialize the settings with the game change """
+        self.ship_speed_factor = 5
+        self.bullet_speed_factor = 10
+        self.alien_speed_factor = 3
+
         #
+        self.fleet_direction = 1
+
+    def increase_speed(self):
+
+        self.ship_speed_factor *= self.speedup_scale
+        self.bullet_speed_factor *= self.speedup_scale
+        self.alien_speed_factor *= self.speedup_scale

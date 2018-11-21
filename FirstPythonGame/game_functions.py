@@ -67,6 +67,8 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     # solve the bug that when you alick the button area the game reset again
     if button_clicked and not stats.game_active:
+        # rset the game settings
+        ai_settings.initialize_dynamic_settings()
         # hide the mouse
         pygame.mouse.set_visible(False)
         # rest the game stats
@@ -100,6 +102,7 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens):
 
     if len(aliens) == 0:
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
 
 def create_fleet_x(ai_settings, screen, aliens, row_number):
