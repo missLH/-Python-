@@ -17,6 +17,14 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption('Alien Invasion')
 
+    fire_active = False
+    # 我认为思路没错但是现有的变成知识不能让我完成 ， 待做
+    
+    events = pygame.event.get()
+    event in events
+
+
+
     # 创建paly按钮
     play_button = Button(ai_settings, screen, "Play")
     # 创建一个用于存储游戏统计信息的实例
@@ -40,7 +48,8 @@ def run_game():
             # 更新飞船位置
             ship.update()
             # 更新子弹位置 删除消失在屏幕外的子弹
-            gf.update_bullets(ai_settings, screen, stats, sb, ship, bullets, aliens)
+
+            gf.update_bullets(event, ai_settings, screen, stats, sb, ship, bullets, aliens,fire_active)
             # 更新外星人群的位置
             gf.update_aliens(ai_settings, stats, sb, screen, ship, bullets, aliens)
 

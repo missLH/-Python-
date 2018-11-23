@@ -19,8 +19,11 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
         ship.moving_down = True
 
-    elif event.key == pygame.K_SPACE or event.key == pygame.K_j:
-        fire_bullet(ai_settings, screen, ship, bullets)
+    #elif event.key == pygame.K_SPACE or event.key == pygame.K_j:
+        #return  True
+        #fire_bullet(ai_settings, screen, ship, bullets)
+
+
     # 方便退出游戏-快捷键
     elif event.key == pygame.K_q:
         sys.exit()
@@ -33,7 +36,7 @@ def fire_bullet(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def check_keydup_events(event, ship):
+def check_keydup_events(event, ship, bullets):
     """ 响应松开按键事件 """
     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
         ship.moving_right = False
@@ -43,6 +46,10 @@ def check_keydup_events(event, ship):
         ship.moving_up = False
     elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
         ship.moving_down = False
+    #elif event.key == pygame.K_SPACE:
+        #return False
+
+
 
 
 def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
@@ -56,7 +63,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             check_keydown_events(event, ai_settings, screen, ship, bullets)
 
         elif event.type == pygame.KEYUP:
-            check_keydup_events(event, ship)
+            check_keydup_events(event, ship, bullets)
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -90,9 +97,15 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         ship.center_ship()
 
 
-def update_bullets(ai_settings, screen, stats, sb, ship, bullets, aliens):
+def update_bullets(event, ai_settings, screen, stats, sb, ship, bullets, aliens, fire_active):
     """ 重构函数，讲主程序子弹的管理代码封装到模块部分， 使得主程序简明 """
     bullets.update()
+    # 这段代码可以不用按键盘就能一致不的发射子弹
+
+    if event.key == pygame.K_SPACE or event.key == pygame.K_j:
+        fire_active = True
+    if fire_active == True:
+        fire_bullet(ai_settings, screen, ship, bullets)
 
     for bullet in bullets.copy():
         #这里的top,bottom,left,right其实就是rect的边缘位置

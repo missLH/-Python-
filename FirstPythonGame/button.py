@@ -17,6 +17,8 @@ class Button():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
 
+        
+
         # 按钮的标签只需创建一次
         self.prep_msg(msg)
 

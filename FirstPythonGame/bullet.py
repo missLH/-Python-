@@ -24,12 +24,18 @@ class Bullet(Sprite):
         self.color = ai_settings.bullet_color
         self.speed_factor = ai_settings.bullet_speed_factor
 
-
-    def update(self,):
+    
+    def update(self):
         #""" 子弹的移动 是 固定 向上运动的 """
 
-        self.y -= self.speed_factor
-        self.rect.y = self.y
+
+
+            self.y -= self.speed_factor
+            self.rect.y = self.y
+
+
+
+
 
 
 
